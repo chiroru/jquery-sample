@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <title>Example - Using jQuery .data()</title>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="./css/blueprint/screen.css" type="text/css" media="screen, projection" title="Blueprint CSS Framework">
+    <link rel="stylesheet" href="./css/blueprint/print.css" type="text/css" media="print" title="Blueprint CSS Framework">
+    <!--[if lt IE 8]>
+        <link rel="stylesheet" href="./stylesheet/blueprint/ie.css" type="text/css" media="screen, projection">
+    <![endif]-->
+    <style>
+
+        #sidebar {
+            display: table-cell;
+            background: #DDDDDD;
+            padding: 10px 10px 10px 10px;
+            width:150px;
+        }
+
+        #rows {
+            display: table-cell;
+            padding-left: 10px;
+        }
+
+        .row {
+            display: table-row;
+        }
+
+        .cell {
+            display: table-cell;
+            background: #DDDDDD;
+            padding: 5px 5px 5px 5px;
+            width:300px;
+            heigth: 100px;
+            border: 1px solid white;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+	<div id="sidebar" data-key="Tota">
+		Filter by type, location or rating:
+		<input type="text" />
+		<button id="filter">Filter</button>
+		<button id="clear">Clear</button>
+		<p>
+		To keep the sample code simple, the search terms are "ORed". Example "seafood 2 stars downtown" which return all rows that matches seafood OR 2+ stars OR in dowtown.
+		</p>
+	</div>
+
+	<div id="rows">
+
+		<p>このサンプルページはjQuery.data() の使い方を示します。 CSSに基づくテーブルやフィルタ関数の利用方法などが対象となる。</p>
+
+		<div class="row" id="row1">
+			<div class="cell"><b>Restaurant</b></div>
+			<div class="cell"><b>Type of Food</b></div>
+			<div class="cell"><b>Location</b></div>
+			<div class="cell"><b>Rating</b></div>
+		</div>
+
+		<div class="row" id="row2">
+			<div class="cell">Manuels</div>
+			<div class="cell">Mexican</div>
+			<div class="cell">North</div>
+			<div class="cell">3 Stars</div>
+		</div>
+
+		<div class="row" id="row3">
+			<div class="cell">NoRTH</div>
+			<div class="cell">Italian</div>
+			<div class="cell">North</div>
+			<div class="cell">4 Stars</div>
+		</div>
+
+		<div class="row" id="row4">
+			<div class="cell">Perlas Seafood</div>
+			<div class="cell">Seafood</div>
+			<div class="cell">Downtown</div>
+			<div class="cell">5 Stars</div>
+		</div>
+
+		<div class="row" id="row5">
+			<div class="cell">Rudys</div>
+			<div class="cell">BBQ</div>
+			<div class="cell">West</div>
+			<div class="cell">3 Stars</div>
+		</div>
+
+		<div class="row" id="row6">
+			<div class="cell">Chuys</div>
+			<div class="cell">Tex Mex</div>
+			<div class="cell">South</div>
+			<div class="cell">2 Star</div>
+		</div>
+
+		<div class="row" id="row7" data-id="7" data-type="Sushi" data-stars="3" data-area="downtown">
+			<div class="cell">Midoro</div>
+			<div class="cell">Sushi</div>
+			<div class="cell">Downtown</div>
+			<div class="cell">4 Star</div>
+		</div>
+
+	</div>
+
+
+</body>
+
+<script type="text/javascript">
+
+    /* Ready */
+    $(document).ready(function() {
+        $('#filter').click(function () {
+            filterRows($('input').val());
+        });
+        $('#clear').click(function () {
+            $('input').val('')
+            clearRows($('input').val());
+        });
+    });
+
+    /* Associate data to specific DOM-elements */
+    $('#row1').data({ id:1, type:'rowheader'});
+    $('#row2').data({ id:2, type:'mexican', stars:3, area:'north'});
+    $('#row3').data({ id:3, type:'italian', stars:4, area:'north'});
+    $('#row4').data({ id:4, type:'seafood', stars:5, area:'downtown'});
+    $('#row5').data({ id:5, type:'bbq',     stars:3, area:'west'});
+    $('#row6').data({ id:6, type:'tex mex', stars:2, area:'south'});
+
+    /* Clear Rows */
+    function clearRows(filterString) {
+        // For each row, that is, div in #rows of class .row
+        $.each($('#rows .row'), function(i, row) {
+            $(row).show();
+        });
+    }
+
+    /* Filter Rows */
+    function filterRows(filterString) {
+
+        // For each row, that is, div in #rows of class .row
+        $.each($('#rows .row'), function(i, row) {
+            var $row = $(row); // Get the row div element
+            var rowData = $row.data(); // Get the data associated with the row div element
+            var id = rowData.id; // Get the row id
+            var type = rowData.type;
+            if (filterString.length == 0) {
+                $row.show();
+            } else {
+                if (type.toLowerCase().search("rowheader") != -1) {
+                    $row.show();
+                } else {
+                    if (filterByType(filterString, rowData.type) ||
+                        filterByRating(filterString, rowData.stars) ||
+                        filterByLocation(filterString, rowData.area)) {
+                        $row.show();
+                    } else {
+                        $row.hide();
+                    }
+                }
+
+            }
+
+        });
+    }
+
+    /* Filter Rows by Type */
+    function filterByType(filterString, type) {
+    	var p1 = RegExp(type);
+    	if (p1.test(filterString)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /* Filter Rows by Rating */
+    function filterByRating(filterString, stars) {
+        if (filterString.toLowerCase().search('star') != -1) {
+            var value = filterString.replace(/[^0-9]/g,'');
+            if (stars >= value) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /* Filter Rows by Location */
+    function filterByLocation(filterString, area) {
+    	var p1 = RegExp(area);
+    	if (p1.test(filterString)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+</script>
+
+</html>

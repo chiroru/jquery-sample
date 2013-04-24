@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>jQuery Sample - Index</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="./css/blueprint/screen.css" type="text/css" media="screen, projection" title="Blueprint CSS Framework">
+    <link rel="stylesheet" href="./css/blueprint/print.css" type="text/css" media="print" title="Blueprint CSS Framework">
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" href="./stylesheet/blueprint/ie.css" type="text/css" media="screen, projection">
+    <![endif]-->
+  </head>
+  <body>
+    <h1>jQuery Sample - Index</h1>
+    <hr/>
+    <ul>
+      <li><a href="#data_management">Data管理</a></li>
+    </ul>
+    <hr/>
+    <a id="data_management"/>
+    <h2>Data管理</h2>
+    <caption>jQueryのデータメソッド</caption>
+    <table>
+      <tr>
+        <th>形式</th>
+        <th>説明</th>
+        <th>書式</th>
+      </tr>
+      <tr>
+        <td>jQuery.data</td>
+        <td>指定された要素に関連付けられた任意のデータを格納する。DOM要素を実装者が自身で選択する必要があり、煩雑である。このAPIはjQueryの下位レベルで使用するべきものである。</td>
+        <td>jQuery.data(element, key, value) / jQuery.data(element, key) / jQuery.data(element)</td>
+      </tr>
+      <tr>
+        <td>jQuery.fn.data</td>
+        <td>一致した要素に関連付けられた任意のデータを格納する。</td>
+        <td>jQuery().data(key, value) / jQuery().data(obj) / jQuery().data(key) / jQuery().data()</td>
+      </tr>
+    </table>
+    <ul>
+      <li><a href="./dom-based-data-sample.html">サンプル</a></li>
+      <li><a href="http://www.ibm.com/developerworks/jp/web/library/wa-domjquery/?cmp=dw&cpb=dwwdv&ct=dwrss&cr=dwrss&ccy=jp&csr=040111">情報元</a></li>
+    </ul>
+  </body>
+</html>
