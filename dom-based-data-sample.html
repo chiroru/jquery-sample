@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <title>Example - Using jQuery .data()</title>
+    <title>Sample - jQuery .data()</title>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" href="./css/blueprint/screen.css" type="text/css" media="screen, projection" title="Blueprint CSS Framework">
@@ -54,7 +54,17 @@
 
 	<div id="rows">
 
-		<p>このサンプルページはjQuery.data() の使い方を示します。 CSSに基づくテーブルやフィルタ関数の利用方法などが対象となる。</p>
+    <p>このサンプルページはjQuery.data() の使い方を示します。 CSSに基づくテーブルやフィルタ関数の利用方法などが対象となる。
+       Web上の特定要素にk関連付けられた隠し情報やメタデータを格納する方法の一つを提示するサンプルです。
+       こうした隠し情報は、スタイル設定、UIの変更、表示結果のフィルタリングなどに使われる。
+       jQueryを利用しない場合は、以下のような方法で実現されるパターンがある。
+    </p>
+    <ul>
+      <li>HTML要素の属性（id, class, rel, titleなど）の中に情報を格納</li>
+      <li>spanやdivブロックを使用して隠し情報を含め、非表示（display:none）にする
+      <li>JavaScritを利用</li>
+      <li>独自の属性をHTML要素に追加する</li>
+    </ul>
 
 		<div class="row" id="row1">
 			<div class="cell"><b>Restaurant</b></div>
@@ -124,6 +134,7 @@
     });
 
     /* Associate data to specific DOM-elements */
+    /*i 非表示データをDOMに関連付ける*/
     $('#row1').data({ id:1, type:'rowheader'});
     $('#row2').data({ id:2, type:'mexican', stars:3, area:'north'});
     $('#row3').data({ id:3, type:'italian', stars:4, area:'north'});
